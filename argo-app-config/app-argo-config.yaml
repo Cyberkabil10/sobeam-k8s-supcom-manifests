@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     path: .
-    repoURL: https://github.com/Cyberkabil10/sobeam-app-supcom.git
+    repoURL: https://github.com/Cyberkabil10/sobeam-k8s-supcom-manifests.git
     targetRevision: HEAD
   syncPolicy:
     automated:
