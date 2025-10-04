@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thingsboard
+  namespace: supcom-pfe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thingsboard
+  template:
+    metadata:
+      labels:
+        app: thingsboard
+    spec:
+      containers:
+      - name: thingsboard
+        image: 683929775058.dkr.ecr.eu-west-3.amazonaws.com/sobeam-dev:0.0.11
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash"]
+        args: 
+          - "-c"
+          - |
+            # Kill internal PostgreSQL
+            pkill postgres || true
+            sleep 3
+            
+            echo "=== Starting ThingsBoard (Safe Upgrade Mode) ==="
+            echo "Using external PostgreSQL: $SPRING_DATASOURCE_URL"
+            
+            # ALWAYS use upgrade mode - this is safe for existing databases
+            # and handles new installations automatically
+            exec java -jar /usr/share/thingsboard/bin/thingsboard.jar \
+              --install.upgrade=true \
+              --install.load_demo=false \
+              --spring.datasource.url="$SPRING_DATASOURCE_URL" \
+              --spring.datasource.username="$SPRING_DATASOURCE_USERNAME" \
+              --spring.datasource.password="$SPRING_DATASOURCE_PASSWORD"
+        ports:
+          - containerPort: 9090
+          - containerPort: 1883
+          - containerPort: 7070
+          - containerPort: 5683
+            protocol: UDP
+        envFrom:
+          - configMapRef:
+              name: thingsboard-config
+          - secretRef:
+              name: thingsboard-secrets
+        volumeMounts:
+          - name: thingsboard-logs
+            mountPath: /var/log/thingsboard
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 9090
+          initialDelaySeconds: 120
+          periodSeconds: 20
+          failureThreshold: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9090
+          initialDelaySeconds: 180
+          periodSeconds: 30
+          failureThreshold: 5
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+      volumes:
+        - name: thingsboard-logs
+          emptyDir: {}

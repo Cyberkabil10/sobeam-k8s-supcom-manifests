@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pfe-argo
+  namespace: argocd
+spec:
+  destination:
+    namespace: supcom-pfe
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: .
+    repoURL: https://github.com/Cyberkabil10/sobeam-app-supcom.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    #syncOptions:
+    #- CreateNamespace=true

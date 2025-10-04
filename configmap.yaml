@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: thingsboard-config
+  namespace: supcom-pfe
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.supcom-pfe.svc.cluster.local:5432/thingsboard"
+  TB_QUEUE_TYPE: "in-memory"
+  # Critical: Disable all internal DB operations
+  INSTALL_TB: "false"
+  LOAD_DEMO: "false"
+  SKIP_INSTALL_SCHEMA: "true"
+  # Additional safety variables
+  TB_SQL_ENABLE: "false"
+  DATABASE_ENTITIES_TYPE: "sql"
+  DATABASE_TS_TYPE: "sql"
