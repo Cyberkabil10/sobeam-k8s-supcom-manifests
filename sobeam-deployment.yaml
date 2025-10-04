@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: thingsboard
-        image: 683929775058.dkr.ecr.eu-west-3.amazonaws.com/sobeam-dev:latest
+        image: 683929775058.dkr.ecr.eu-west-3.amazonaws.com/sobeam-dev:0.0.11
         imagePullPolicy: IfNotPresent
         command: ["/bin/bash"]
         args: 
