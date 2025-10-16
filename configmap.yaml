@@ -7,10 +7,10 @@ data:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.supcom-pfe.svc.cluster.local:5432/thingsboard"
   TB_QUEUE_TYPE: "in-memory"
   # Critical: Disable all internal DB operations
-  INSTALL_TB: "false"
+  INSTALL_TB: "false" # This should be "false" after initial setup
   LOAD_DEMO: "false"
-  SKIP_INSTALL_SCHEMA: "true"
+  SKIP_INSTALL_SCHEMA: "true" # This should be "true" after initial setup
   # Additional safety variables
-  TB_SQL_ENABLE: "false"
+  TB_SQL_ENABLE: "true"
   DATABASE_ENTITIES_TYPE: "sql"
   DATABASE_TS_TYPE: "sql"

@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: supcom-pfe
+    namespace: "" #supcom-pfe
     server: https://kubernetes.default.svc
   project: default
   source:

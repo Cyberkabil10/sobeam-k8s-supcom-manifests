@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: neuvector-webui-svc
+  namespace: neuvector
+spec:
+  selector:
+    app: neuvector-manager-pod
+    release: neuvector
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443          # The port exposed to the ingress
+      targetPort: 8443   # NeuVector Manager listens on 8443
+  type: ClusterIP

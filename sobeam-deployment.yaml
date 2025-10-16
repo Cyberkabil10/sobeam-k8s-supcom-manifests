@@ -17,6 +17,7 @@ spec:
       - name: thingsboard
         image: 683929775058.dkr.ecr.eu-west-3.amazonaws.com/sobeam-dev:latest
         imagePullPolicy: IfNotPresent
+        # This should be comment it only on the first run 
         command: ["/bin/bash"]
         args: 
           - "-c"
@@ -66,11 +67,13 @@ spec:
           failureThreshold: 5
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "500m"
+            cpu: 250m
+            memory: 512Mi
           limits:
-            memory: "2Gi"
-            cpu: "1000m"
+            cpu: 500m
+            memory: 1Gi
+          
+          
       volumes:
         - name: thingsboard-logs
           emptyDir: {}
